@@ -54,13 +54,14 @@ class GroupextController < ApplicationController
   end
   
   def autocomplete_for_assigned
-    @not_in_assignees = User.active.not_in_group_assignees(params[:group_id]).like(params[:q]).all(:limit => 300)
+    @not_in_assignees = User.active.not_in_group_assignees(params[:group_id]).like(params[:q]).limit(300).all()
     render :layout => false
   end
   
   def add_group_assignee
     Rails.logger.warn "add_group_assignee: params: " + params.to_s
-    User.find_all_by_id(params[:user_ids]).each do |users|
+    #User.find_all_by_id(params[:user_ids]).each do |users|
+    User.find(params[:user_ids]).each do |users|
       groupAssignee = GroupsAssigned.new
       groupAssignee.group_id = params[:group_id]
       groupAssignee.user_id = users.id
