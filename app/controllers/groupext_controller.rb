@@ -78,7 +78,8 @@ class GroupextController < ApplicationController
   end
   
   def menugroup
-    @groups = Group.find(:all, :order => 'lastname')
+    #@groups = Group.find(:all, :order => 'lastname')
+    @groups = Group.all()
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @groups }
@@ -88,7 +89,8 @@ class GroupextController < ApplicationController
   def edit_groupassigne
 	return nil if check_group_assignee(params[:group_id]) == false
 	
-    @group = Group.find(params[:group_id], :include => :projects)
+    #@group = Group.find(params[:group_id], :include => :projects)
+    @group = Group.includes(:projects).find(params[:group_id])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @groups }
@@ -96,7 +98,8 @@ class GroupextController < ApplicationController
   end
 
   def check_group_assignee(group_id)
-	if !GroupsAssigned.find(:first, :conditions => ['user_id = ? and group_id = ?', User.current.id,group_id])
+	#if !GroupsAssigned.find(:first, :conditions => ['user_id = ? and group_id = ?', User.current.id,group_id])
+	if !GroupsAssigned.where(['user_id = ? and group_id = ?', User.current.id,group_id]).first
       render_403
       return false
     end
@@ -104,10 +107,21 @@ class GroupextController < ApplicationController
   
   def require_group_assignee
     return unless require_login
-    if !GroupsAssigned.find(:first, :conditions => ['user_id = ?', User.current.id]) and !User.current.admin? 
+    if !User.current.admin? and !GroupsAssigned.find(:first, :conditions => ['user_id = ?', User.current.id]) 
       render_403
       return false
     end
     true
   end 
+
+  def add_users
+    @group = Group.find(params[:id])
+    @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
+    @group.users << @users
+    @group.save
+    respond_to do |format|
+      format.html { redirect_to action: "edit_groupassigne", group_id: @group.id, tab: "users", status: 303 }
+    end
+  end
+
 end

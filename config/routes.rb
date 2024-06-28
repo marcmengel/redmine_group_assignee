@@ -12,6 +12,7 @@ if Rails::VERSION::MAJOR >= 3
     match 'groupext/new',  :to => 'groupext#new', :via => [:get, :post]
     match 'groupext/update',  :to => 'groupext#update', :via => [:get, :post]
     match 'groupext/create',  :to => 'groupext#create', :via => [:get, :post]
+    post  'groupext/:id/users', :to => 'groupext#add_users', :id => /\d+/, :as => 'groupext_users'
 
   end
 else

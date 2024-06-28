@@ -24,7 +24,7 @@
 </div>
 
 <div class="splitcontentright">
-<% @not_in_assignees = User.active.not_in_group_assignees(@group.id).all(:limit => 300) %>
+<% @not_in_assignees = User.active.not_in_group_assignees(@group).limit(300).all() %>
 <% if @not_in_assignees.any? %>
 
  <%= form_for(:groupext,  :url => groupext_add_group_assignee_path(@group),

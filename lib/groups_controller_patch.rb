@@ -19,7 +19,7 @@ module GroupsAssignedsPlugin
    module InstanceMethodsForGroupsController
      def require_group_assignee
        return unless require_login
-       if !GroupsAssigned.find(:first, :conditions => ['user_id = ? and group_id = ?', User.current.id,params[:id]]) and !User.current.admin? 
+       if !GroupsAssigned.where(['user_id = ? and group_id = ?', User.current.id,params[:id]]).first and !User.current.admin? 
          render_403
          return false
        end

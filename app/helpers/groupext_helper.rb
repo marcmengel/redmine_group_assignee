@@ -3,7 +3,7 @@ require 'groups_helper'
 module GroupextHelper
   def groupassinge_settings_tabs
     tabs = [ {:name => 'general', :partial => 'groupext/general', :label => :label_general},
-             {:name => 'users', :partial => 'groups/users', :label => :label_user_plural}
+             {:name => 'users', :partial => 'groupext/users', :label => :label_user_plural}
            ]
   end
 
@@ -11,5 +11,11 @@ module GroupextHelper
 	@not_in_assignees = User.active.not_in_group_assignees(group.id).like(params[:q]).all(:limit => 300)
 	render :layout => false
   end
+
+  def group_users_path(group)
+      return "../../groupext/#{group.id}/users"
+  end
+
 end
+
 
