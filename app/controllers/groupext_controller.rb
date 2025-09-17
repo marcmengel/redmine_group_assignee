@@ -1,7 +1,8 @@
 require 'groups_helper'
 
 class GroupextController < ApplicationController
-  before_filter :require_group_assignee  
+  #before_filter :require_group_assignee  
+  before_action :require_group_assignee  
   helper GroupsHelper
   
   def new
@@ -108,7 +109,8 @@ class GroupextController < ApplicationController
   
   def require_group_assignee
     return unless require_login
-    if !User.current.admin? and !GroupsAssigned.find(:first, :conditions => ['user_id = ?', User.current.id]) 
+    #if !User.current.admin? and !GroupsAssigned.find(:first, :conditions => ['user_id = ?', User.current.id]) 
+    if !User.current.admin? and !GroupsAssigned.where(['user_id = ?', User.current.id]).first
       render_403
       return false
     end
@@ -118,6 +120,7 @@ class GroupextController < ApplicationController
   def add_users
     @group = Group.find(params[:id])
     @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
+    logger.debug "Adding users #{@users}"
     @group.users << @users
     @group.save
     respond_to do |format|

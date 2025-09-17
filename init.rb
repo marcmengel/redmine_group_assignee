@@ -2,7 +2,8 @@ require 'redmine'
 require 'dispatcher' unless Rails::VERSION::MAJOR >= 3
 
 if Rails::VERSION::MAJOR >= 3
-   ActionDispatch::Callbacks.to_prepare do
+   #ActionDispatch::Callbacks.to_prepare do
+   ActiveSupport::Reloader.to_prepare do
       require 'groups_helper_patch'
       require 'groups_controller_patch'
       require 'users_patch'

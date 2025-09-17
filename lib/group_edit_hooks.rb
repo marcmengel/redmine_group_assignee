@@ -1,4 +1,5 @@
-class GroupEditHook < Redmine::Hook::ViewListener
+#class GroupEditHook < Redmine::Hook::ViewListener
+class GroupEditHooks < Redmine::Hook::ViewListener
   def view_my_account_contextual(context={ })
      
     user = context[:user]

@@ -1,6 +1,6 @@
 
-module GroupsAssignedsPlugin
-  module UserPatch    
+#module GroupsAssignedsPlugin
+  module UsersPatch    
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethodsForUser)
       
@@ -38,4 +38,4 @@ module GroupsAssignedsPlugin
     end
   
   end
-end
+#end

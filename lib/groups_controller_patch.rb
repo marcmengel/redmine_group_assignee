@@ -1,4 +1,4 @@
-module GroupsAssignedsPlugin
+#module GroupsAssignedsPlugin
   module GroupsControllerPatch
     
    def self.included(base) # :nodoc:
@@ -28,4 +28,4 @@ module GroupsAssignedsPlugin
    end  
     
   end
-end
+#end

@@ -1,6 +1,6 @@
 require 'groups_helper'
 
-module GroupsAssignedsPlugin
+#module GroupsAssignedsPlugin
   module GroupsHelperPatch 
     def self.included(base) # :nodoc:
       base.send(:include, InstanceMethodsForGroupsHelper)
@@ -40,4 +40,4 @@ module GroupsAssignedsPlugin
 
     end
   end    
-end
+#end
